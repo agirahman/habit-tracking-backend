@@ -1,0 +1,86 @@
+{
+  "client": "Thunder Client",
+  "collectionName": "Habit Tracker API",
+  "dateExport": "2025-12-09",
+  "version": "1.1",
+  "folders": [
+    {
+      "name": "Auth",
+      "requests": [
+        {
+          "name": "Register",
+          "method": "POST",
+          "url": "http://localhost:5000/api/v1/auth/register",
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "body": {
+            "name": "Test User",
+            "email": "test@example.com",
+            "password": "password123"
+          }
+        },
+        {
+          "name": "Login",
+          "method": "POST",
+          "url": "http://localhost:5000/api/v1/auth/login",
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "body": {
+            "email": "test@example.com",
+            "password": "password123"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Habits",
+      "requests": [
+        {
+          "name": "Create Habit",
+          "method": "POST",
+          "url": "http://localhost:5000/api/v1/habits",
+          "headers": {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer YOUR_TOKEN_HERE"
+          },
+          "body": {
+            "name": "Morning Jog",
+            "target": "30 minutes",
+            "category": "Exercise",
+            "schedule": "Daily"
+          }
+        },
+        {
+          "name": "Get All Habits",
+          "method": "GET",
+          "url": "http://localhost:5000/api/v1/habits",
+          "headers": {
+            "Authorization": "Bearer YOUR_TOKEN_HERE"
+          }
+        },
+        {
+          "name": "Toggle Habit Today",
+          "method": "POST",
+          "url": "http://localhost:5000/api/v1/habits/HABIT_ID_HERE/toggle",
+          "headers": {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer YOUR_TOKEN_HERE"
+          },
+          "body": {
+            "duration": 30
+          }
+        },
+        {
+          "name": "Get Habit Summary",
+          "method": "GET",
+          "url": "http://localhost:5000/api/v1/habits/summary",
+          "headers": {
+            "Authorization": "Bearer YOUR_TOKEN_HERE"
+          }
+        }
+      ]
+    }
+  ]
+}
