@@ -33,6 +33,29 @@ const toggleToday = async (req, res, next) => {
   }
 };
 
+const update = async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    const habitId = req.params.id;
+    const payload = req.body;
+    const habit = await habitService.updateHabit(userId, habitId, payload);
+    res.json(habit);
+  } catch (err) {
+    next(err);
+  }
+};
+
+const remove = async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    const habitId = req.params.id;
+    await habitService.deleteHabit(userId, habitId);
+    res.json({ message: 'Habit deleted' });
+  } catch (err) {
+    next(err);
+  }
+};
+
 const summary = async (req, res, next) => {
   try {
     const userId = req.user.id;
@@ -43,4 +66,4 @@ const summary = async (req, res, next) => {
   }
 };
 
-export default { create, list, toggleToday, summary };
+export default { create, list, toggleToday, update, remove, summary };

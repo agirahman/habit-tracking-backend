@@ -20,4 +20,25 @@ const login = async (req, res, next) => {
   }
 };
 
-export default { register, login };
+const forgotPassword = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    const result = await authService.forgotPassword({ email });
+    res.json(result);
+  } catch (err) {
+    next(err);
+  }
+};
+
+const resetPassword = async (req, res, next) => {
+  try {
+    const { resetToken, newPassword } = req.body;
+    const result = await authService.resetPassword({ resetToken, newPassword });
+    res.json(result);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export default { register, login, forgotPassword, resetPassword };
+

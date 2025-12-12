@@ -8,7 +8,8 @@ const createHabit = async (userId, payload) => {
 };
 
 const getHabitsForUser = async (userId) => {
-  return Habit.find({ user: userId }).lean();
+  // Sort by createdAt descending so newest habits appear first
+  return Habit.find({ user: userId }).sort({ createdAt: -1 }).lean();
 };
 
 const toggleToday = async (userId, habitId, { duration = 0 } = {}) => {
@@ -34,6 +35,24 @@ const toggleToday = async (userId, habitId, { duration = 0 } = {}) => {
 
   await habit.save();
   return habit;
+};
+
+const updateHabit = async (userId, habitId, payload) => {
+  if (!mongoose.Types.ObjectId.isValid(habitId)) throw new Error('Invalid habit id');
+  const habit = await Habit.findOneAndUpdate(
+    { _id: habitId, user: userId },
+    { $set: payload },
+    { new: true }
+  );
+  if (!habit) throw new Error('Habit not found');
+  return habit;
+};
+
+const deleteHabit = async (userId, habitId) => {
+  if (!mongoose.Types.ObjectId.isValid(habitId)) throw new Error('Invalid habit id');
+  const res = await Habit.deleteOne({ _id: habitId, user: userId });
+  if (res.deletedCount === 0) throw new Error('Habit not found');
+  return true;
 };
 
 const getSummary = async (userId) => {
@@ -62,4 +81,4 @@ const getSummary = async (userId) => {
   return { total, completedToday: completedCount, percentToday, topHabits: top };
 };
 
-export default { createHabit, getHabitsForUser, toggleToday, getSummary };
+export default { createHabit, getHabitsForUser, toggleToday, updateHabit, deleteHabit, getSummary };
